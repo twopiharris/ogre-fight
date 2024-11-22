@@ -1,0 +1,68 @@
+:: StoryTitle
+ogreFight
+
+
+:: StoryData
+{
+  "ifid": "6F2944F3-A006-43F2-94A3-7E97A295CE98",
+  "format": "Harlowe",
+  "format-version": "3.3.9",
+  "start": "start",
+  "zoom": 1
+}
+
+
+:: fight {"position":"266.5,402.1666717529297","size":"100,100"}
+(set: $myDamage to (random: 1, $myMaxDamage))
+(set: $eDamage to (random: 1, $eMaxDamage))
+(set: $eHP to $eHP - $myDamage)
+(set: $myHP to $myHP - $eDamage)
+You hit the ogre with your $weapon.
+You do $myDamage points of damage to the Ogre.
+The Ogre does $eDamage points of damage to you.
+Your HP: $myHP
+Ogre HP: $eHP
+(if: $eHP <= 0)[
+  [[You defeated the Ogre!->start]]
+](else-if: $myHP <= 0)[
+  [[You were defeated by the Ogre->start]]
+](else:)[
+  [[Hit the Ogre again with your $weapon->fight]]
+  [[Run away->run]]
+]
+
+
+:: hospital {"position":"505.5,569.1666717529297","size":"100,100"}
+You walk into the hospital
+The nurse says 
+  "You look terrible!"
+  "Let me help with that..."
+(set: $myHP to $myHP + 10)
+Your health is now $myHP.
+[[Get back into the fight->fight]]
+
+
+:: run {"position":"458.5,397.1666717529297","size":"100,100"}
+You bravely run away from the Ogre.
+You see a door labeled [["Weapon shop"->weapon]]
+And another labeled [["Hospital"->hospital]]
+
+
+:: start {"position":"358.5,268.1666717529297","size":"100,100"}
+(set: $weapon to "dagger")
+(set: $myMaxDamage to 3)
+(set: $myHP to 30)
+(set: $eMaxDamage to 3)
+(set: $eHP to 40)
+You can see the treasure chest, but an Ogre stands in your way
+[[fight the ogre->fight]]
+[[run away->run]]
+
+
+:: weapon {"position":"229.5,572.1666717529297","size":"100,100"}
+You go in to the weapon shop.  You see a bin that says
+"Free swords to a good owner"
+You pick up the sword. It feels good in your hands. 
+(set: $weapon to "sword")
+(set: $myMaxDamage to 6)
+[[Go back to finish off the Ogre->fight]]
